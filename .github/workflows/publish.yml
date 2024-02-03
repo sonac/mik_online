@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: build server docker image
         run: |
-          docker build -t ghcr.io/sonac/mik_online_client/mik_online_client:latest .
+          docker build -t ghcr.io/sonac/mik_online/mik_online:latest
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
@@ -41,5 +41,5 @@ jobs:
             cd app
             docker compose down
             cat gh_token | docker login ghcr.io -u sonac --password-stdin
-            docker pull ghcr.io/sonac/mik_online_client/mik_online_client:master
+            docker pull ghcr.io/sonac/mik_online/mik_online:master
             docker compose up -d

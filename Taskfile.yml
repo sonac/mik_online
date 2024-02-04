@@ -14,4 +14,4 @@ tasks:
   docker-build:
     deps: [build-client]
     cmds:
-      - docker build ghcr.io/sonac/mik_online/mik_online:latest -t mik-online
+      - docker build -t ghcr.io/sonac/mik_online/mik_online:latest .

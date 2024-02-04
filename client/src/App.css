@@ -1,0 +1,59 @@
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.readMik {
+  color: #888;
+}
+
+.readMik:hover {
+  color: #646cff;
+  cursor: pointer;
+}
+
+.folder:hover {
+  cursor: pointer
+}
+
+.App {
+  /* Ensures the app fills the entire screen */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5; /* Light grey background */
+}
+
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Creates a responsive grid layout */
+  gap: 20px; /* Spacing between grid items */
+  padding: 20px; /* Padding around the grid */
+  max-width: 90vw; /* Maximum width of the grid */
+  margin: auto; /* Centers the grid horizontally */
+}
+
+.file-container {
+  display: flex;
+  flex-direction: column; /* Stacks image on top of the filename */
+  align-items: center; /* Centers items horizontally in their container */
+  border-radius: 8px; /* Rounded corners for the containers */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+  padding: 10px; /* Padding inside each container */
+  overflow: hidden; /* Ensures nothing spills out of the container */
+}
+
+.file {
+  max-width: 100%; /* Ensures images are not bigger than their containers */
+  height: auto; /* Maintains aspect ratio */
+  border-bottom: 1px solid #eee; /* Subtle separation between image and filename */
+  margin-bottom: 8px; /* Space between image and filename */
+}
+
+.file:hover {
+  cursor: pointer; /* Changes the mouse cursor to a hand */
+}

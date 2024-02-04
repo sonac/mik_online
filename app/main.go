@@ -14,13 +14,15 @@ const staticDir = "./client/dist" // Directory for static files like HTML, JS, C
 func main() {
 	// Serve static files
 	http.Handle("/", http.FileServer(http.Dir(staticDir)))
-	http.Handle("/healthcheck", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	http.Handle("/public/", contentTypeSetter(http.StripPrefix("/public/", http.FileServer(http.Dir(staticDir)))))
+	http.Handle("/api/", http.FileServer(http.Dir(staticDir)))
+	http.Handle("/api/healthcheck", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		response := map[string]string{"result": "OK"}
 		jsonResponse, _ := json.Marshal(response)
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(jsonResponse)
 	}))
-	http.Handle("/dirs", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	http.Handle("/api/dirs", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		dirs, err := pdf.ListDirs(pdfDir)
 		if err != nil {
 			log.Fatal(err)
@@ -29,8 +31,9 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(jsonResponse)
 	}))
-	http.Handle("/list-files/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		folder := filepath.Base(r.URL.Path[len("/list-files/"):])
+	http.Handle("/api/list-files/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		folder := filepath.Base(r.URL.Path[len("/api/list-files/"):])
+		log.Println("folder: ", folder)
 		folderPath := filepath.Join(pdfDir, folder)
 		log.Println("folderPath: ", folderPath)
 		files, err := pdf.ListFiles(folderPath)
@@ -41,9 +44,9 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(jsonResponse)
 	}))
-	http.Handle("/pdf/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	http.Handle("/api/pdf/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log.Println("r.URL.Path: ", r.URL.Path)
-		pdfFile := r.URL.Path[4:]
+		pdfFile := r.URL.Path[8:]
 		log.Println("pdfFile: ", pdfFile)
 		pdfPath := filepath.Join(pdfDir, pdfFile)
 		log.Println("pdfPath: ", pdfPath)
@@ -61,6 +64,8 @@ func contentTypeSetter(next http.Handler) http.Handler {
 			w.Header().Set("Content-Type", "application/javascript")
 		case ".css":
 			w.Header().Set("Content-Type", "text/css")
+		case ".svg":
+			w.Header().Set("Content-Type", "image/svg+xml")
 		default:
 			w.Header().Set("Content-Type", "text/plain")
 		}

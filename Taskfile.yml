@@ -1,0 +1,16 @@
+version: "3"
+
+tasks:
+  build:
+    cmds:
+      - go build app/main.go
+
+  build-client:
+    dir: client
+    cmds:
+      - npm run build
+
+  docker-build:
+    deps: [build-client]
+    cmds:
+      - docker build ghcr.io/sonac/mik_online/mik_online:latest -t mik-online

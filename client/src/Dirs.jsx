@@ -1,29 +1,29 @@
-import React, { useState } from "react";
-import Files from "./Files";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-export default function Dirs(props) {
-  const [showFiles, setShowFiles] = useState(false);
+export default function Dirs() {
+  const [dirs, setDirs] = useState([]);
 
-  const handleClick = () => {
-    setShowFiles(!showFiles);
+  const fetchDirs = async () => {
+    const res = await fetch("/api/dirs");
+    const data = await res.json();
+    setDirs(data);
   };
+
+  useEffect(() => {
+    fetchDirs();
+  }, []);
 
   return (
     <>
-      {props.dirs.map((dir) => {
-        return (
-          <div key={dir}>
-            {showFiles ? (
-              <Files dir={dir} />
-            ) : (
-              <div onClick={handleClick}>
-                <img className="folder" src="/public/folder.svg" alt="folder" />
-                <h1>{dir}</h1>
-              </div>
-            )}
-          </div>
-        );
-      })}
+      {dirs.map((dir) => (
+        <div key={dir}>
+          <Link to={`/files/${dir}`}>
+            <img className="folder" src="/public/folder.svg" alt="folder" />
+            <h1>{dir}</h1>
+          </Link>
+        </div>
+      ))}
     </>
   );
 }

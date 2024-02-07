@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import Dirs from "./Dirs";
 import "./App.css";
+import { Link } from "react-router-dom";
 
 export default function App() {
   const [dirs, setDirs] = useState([]);
@@ -13,15 +13,9 @@ export default function App() {
 
   return (
     <>
-      {dirs.length === 0 ? (
-        <div>
-          <div onClick={fetchDirs}>
-            <h1 className="readMik">Read MIK Online</h1>
-          </div>
-        </div>
-      ) : (
-        <Dirs dirs={dirs} />
-      )}
+      <Link to="/dirs">
+        <h1>Read MIK Online</h1>
+      </Link>
     </>
   );
 }

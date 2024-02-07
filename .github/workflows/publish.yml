@@ -47,5 +47,5 @@ jobs:
             cd app
             docker compose down
             cat gh_token | docker login ghcr.io -u sonac --password-stdin
-            docker pull ghcr.io/sonac/mik_online/mik_online:master
+            docker pull ghcr.io/sonac/mik_online:master
             docker compose up -d

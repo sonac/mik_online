@@ -2,3 +2,4 @@ mik
 docker-compose.yml
 .DS_Store
 main
+client/package-lock.json
